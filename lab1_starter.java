@@ -6,9 +6,8 @@ import java.io.*;
  * Practice reading raw bytes from a file using FileInputStream.
  * Complete the methods below to read, interpret, and analyze binary data.
  * 
- * @author [Your Name]
- */
-public class ByteDetective {
+ * @author Quint Bunting
+public class lab1_starter {
     
     // Path to the mystery file (same directory as this .java file)
     private static final String MYSTERY_FILE = "mystery.bin";
@@ -40,8 +39,7 @@ public class ByteDetective {
     
     /**
      * Task 2: Read and display ALL bytes from the file.
-     * 
-     * TODO: Implement this method
+     *
      * 
      * Requirements:
      * - Use a while loop with the EOF pattern: while ((b = fis.read()) != -1)
@@ -52,29 +50,35 @@ public class ByteDetective {
      * Hint: Review Lecture 1, Slide 3 for the standard reading loop pattern
      */
     public static void readAllBytes() {
-        // TODO: Open FileInputStream using try-with-resources
-        
-        // TODO: Create an int variable for the byte value
-        
-        // TODO: Create a counter for total bytes
-        
-        // TODO: Loop while read() doesn't return -1
-        //       Inside loop:
-        //         - Print the byte value
-        //         - Increment counter
-        
-        // TODO: After loop, print total count
-        
-        // TODO: Handle IOException
-        
-        System.out.println("TODO: Implement readAllBytes()");
+        //Open FileInputStream using try-with-resources
+        try (FileInputStream fis = new FileInputStream((MYSTERY_FILE))) {
+
+            //Create an int variable for the byte value
+            int curByte;
+            // Create a counter for total bytes
+            int totalBytes = 0;
+            //Loop while read() doesn't return -1
+            //       Inside loop:
+            //         - Print the byte value
+            //         - Increment counter
+            while ((curByte = fis.read()) != -1){
+                System.out.println("Byte "+(totalBytes+1)+": "+curByte);
+                totalBytes++;
+            }
+
+            //After loop, print total count
+            System.out.println("Total bytes read: "+totalBytes);
+
+            //Handle IOException
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found - " + MYSTERY_FILE);
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
     }
     
     /**
      * Task 3: Display all bytes in hexadecimal format.
-     * 
-     * TODO: Implement this method
-     * 
      * Requirements:
      * - Read all bytes (same loop as Task 2)
      * - Convert each byte to hex using: String.format("%02X", byteValue)
@@ -87,15 +91,29 @@ public class ByteDetective {
     public static void displayAsHex() {
         // TODO: Similar structure to readAllBytes()
         // TODO: But use String.format("%02X ", byteValue) for display
-        
-        System.out.println("TODO: Implement displayAsHex()");
+
+        try (FileInputStream fis = new FileInputStream((MYSTERY_FILE))) {
+
+            //Create an int variable for the byte value
+            int curByte;
+            //Loop while read() doesn't return -1
+            //       Inside loop:
+            //         - Print the byte value
+            //         - Increment counter
+            while ((curByte = fis.read()) != -1) {
+                System.out.print(String.format("%02X", curByte)+" ");
+            }
+            System.out.println();
+            //Handle IOException
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found - " + MYSTERY_FILE);
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
     }
     
     /**
      * Task 4: Attempt to display bytes as ASCII characters.
-     * 
-     * TODO: Implement this method
-     * 
      * Requirements:
      * - Read all bytes (same loop pattern)
      * - Cast each byte to char: (char) byteValue
@@ -110,17 +128,31 @@ public class ByteDetective {
      * Hint: If mystery.bin contains "Hello", you should see those letters
      */
     public static void attemptAsAscii() {
-        // TODO: Same loop pattern
-        // TODO: Cast to char and print: System.out.print((char) byteValue);
-        
-        System.out.println("TODO: Implement attemptAsAscii()");
+        //Same loop pattern
+        //Cast to char and print: System.out.print((char) byteValue);
+
+        try (FileInputStream fis = new FileInputStream((MYSTERY_FILE))) {
+
+            //Create an int variable for the byte value
+            int curByte;
+            //Loop while read() doesn't return -1
+            //       Inside loop:
+            //         - Print the byte value
+            //         - Increment counter
+            while ((curByte = fis.read()) != -1) {
+                System.out.print((char)curByte);
+            }
+            System.out.println();
+            //Handle IOException
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found - " + MYSTERY_FILE);
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
     }
     
     /**
      * Task 5: Analyze the file and display statistics.
-     * 
-     * TODO: Implement this method
-     * 
      * Requirements:
      * - Count total bytes
      * - Track minimum byte value (hint: start at 256)
@@ -138,26 +170,55 @@ public class ByteDetective {
      * Average: 78.5
      */
     public static void analyzeFile() {
-        // TODO: Initialize tracking variables:
-        //       int count = 0;
-        //       int min = 256;  (start higher than any byte)
-        //       int max = -1;   (start lower than any byte)
-        //       long sum = 0;   (use long to avoid overflow)
+        // Initialize tracking variables:
+        int count = 0;
+        int min = 256;  //(start higher than any byte)
+        int max = -1;   //(start lower than any byte)
+        long sum = 0;   //(use long to avoid overflow)
         
-        // TODO: Read file with standard loop
+        // Read file with standard loop
         //       Inside loop:
         //         - Increment count
         //         - Update min if byteValue < min
         //         - Update max if byteValue > max
         //         - Add byteValue to sum
+        try (FileInputStream fis = new FileInputStream((MYSTERY_FILE))) {
+
+            //Create an int variable for the byte value
+            int curByte;
+            //Loop while read() doesn't return -1
+            //       Inside loop:
+            //         - Print the byte value
+            //         - Increment counter
+            while ((curByte = fis.read()) != -1) {
+                count++;
+                if (curByte < min) {
+                    min = curByte;
+                }
+                if (curByte > max) {
+                    max = curByte;
+                }
+                sum += curByte;
+            }
+            System.out.println();
+            //Handle IOException
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: File not found - " + MYSTERY_FILE);
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+
         
-        // TODO: After loop, calculate and display:
+        //After loop, calculate and display:
         //       - Total bytes (count)
         //       - Min value
         //       - Max value
         //       - Average (sum / count as a double)
         
-        System.out.println("TODO: Implement analyzeFile()");
+        System.out.println("Total bytes: " +count);
+        System.out.println("Min value: " +min);
+        System.out.println("Max value: " +max);
+        System.out.println("Average: " +(sum/count));
     }
     
     /**
