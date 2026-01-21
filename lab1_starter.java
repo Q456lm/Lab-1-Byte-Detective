@@ -20,6 +20,8 @@ public class lab1_starter {
      * 
      * @return the first byte as an int (0-255), or -1 if file is empty
      */
+public class lab1_starter{
+    public static String MYSTERY_FILE = "mystery.bin";
     public static int readFirstByte() {
         // Try-with-resources automatically closes the stream
         try (FileInputStream fis = new FileInputStream(MYSTERY_FILE)) {
